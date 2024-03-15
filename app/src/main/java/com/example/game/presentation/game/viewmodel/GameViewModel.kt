@@ -9,7 +9,6 @@ import com.example.game.presentation.game.state.UiEffect
 import com.games.freegameapp.presentation.free_game.state.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -19,6 +18,7 @@ import javax.inject.Inject
 import com.example.game.core.common.Resource
 import com.example.game.domain.model.Games
 import com.example.game.domain.usecase.GameUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @HiltViewModel
 class GameViewModel @Inject constructor(private val useCase: GameUseCase) : ViewModel() {
@@ -44,21 +44,23 @@ class GameViewModel @Inject constructor(private val useCase: GameUseCase) : View
         getAllFreeGames()
     }
 
-    private fun getAllFreeGames() = useCase().onEach {
-        when(it) {
-            is Resource.Error -> {
-                _gameState.value = GameState().copy(errorMsg = it.msg)
-                _uiEffect.emit(UiEffect.ShowSnackBar(it.msg.toString()))
-            }
-            is Resource.Loading -> {
-                _gameState.value = GameState().copy(isLoading = true)
-            }
-            is Resource.Success -> {
-                _gameState.value = GameState().copy(games = it.data)
-            }
-        }
-    }.launchIn(viewModelScope)
+    private fun getAllFreeGames() =
+        useCase().onEach {
+            when (it) {
+                is Resource.Error -> {
+                    _gameState.value = GameState().copy(errorMsg = it.msg)
+                    _uiEffect.emit(UiEffect.ShowSnackBar(it.msg.toString()))
+                }
 
+                is Resource.Loading -> {
+                    _gameState.value = GameState().copy(isLoading = true)
+                }
+
+                is Resource.Success -> {
+                    _gameState.value = GameState().copy(games = it.data)
+                }
+            }
+        }.launchIn(viewModelScope)
 
     fun onEvent(uiEvent: UiEvent) {
         when(uiEvent) {

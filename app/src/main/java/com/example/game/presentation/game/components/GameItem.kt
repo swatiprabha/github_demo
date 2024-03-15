@@ -14,31 +14,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.game.domain.model.Games
 
 @Composable
- fun GameItem(modifier: Modifier, games: Games) {
+fun GameItem(modifier: Modifier, games: Games) {
 
-    Column(modifier = modifier
-        .padding(16.dp)
-        .fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .testTag("gameItem")
+    ) {
         Card(elevation = CardDefaults.cardElevation(4.dp), shape = RoundedCornerShape(16.dp)) {
             Column(modifier = modifier
                 .padding(8.dp)
                 .clickable {
 
                 }
-                .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                AsyncImage(model = games.thumbnail, contentDescription = "", modifier= Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth(),
-
-                contentScale = ContentScale.Crop)
-                Text(text = games.title, fontWeight = FontWeight.Bold)
-                Text(text = games.shortDescription)
+                .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center) {
+                AsyncImage(
+                    model = games.thumbnail,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .testTag("thumbnail"),
+                    contentScale = ContentScale.Crop,
+                    )
+                Text(
+                    text = games.title,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.testTag("title")
+                )
+                Text(text = games.shortDescription, modifier = Modifier.testTag("shortDescription"))
             }
         }
     }

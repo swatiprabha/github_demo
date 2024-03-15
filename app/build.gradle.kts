@@ -80,6 +80,7 @@ dependencies {
     androidTestImplementation ("androidx.compose.ui:ui-test-junit4")
     debugImplementation ("androidx.compose.ui:ui-tooling")
     debugImplementation ("androidx.compose.ui:ui-test-manifest")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -95,6 +96,9 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.5.3")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation ("androidx.compose.material:material:1.0.0")
+
+    //mockito
+    testImplementation ("org.mockito:mockito-core:5.8.0")
 
 }
 kapt {
