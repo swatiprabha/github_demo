@@ -23,16 +23,24 @@ fun GameScreen(viewModel: GameViewModel,
     mGameState = gameState
     mmodifier = modifier
     mviewModel = viewModel
-    if (gameState.games?.isNotEmpty()!!) {
-        LazyColumn(modifier = Modifier.testTag("game_list")) {
-            items(gameState.games) {
-                viewModel.setGame(it)
-                GameItem(modifier, it)
+
+    when {
+        gameState.games?.isNotEmpty()!! -> {
+            LazyColumn(modifier = Modifier.testTag("game_list")) {
+                items(gameState.games) {
+                    viewModel.setGame(it)
+                    GameItem(modifier, it)
+                }
             }
         }
-    } else if (gameState.isLoading) {
-        Box(modifier = modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = modifier.align(Alignment.Center).testTag("progress"))
+        gameState.isLoading -> {
+            Box(modifier = modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = modifier
+                        .align(Alignment.Center)
+                        .testTag("progress")
+                )
+            }
         }
     }
 }
